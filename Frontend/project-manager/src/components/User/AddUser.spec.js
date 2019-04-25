@@ -1,9 +1,7 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import AddUser from './AddUser';
-import axios from 'axios';
-
-jest.mock('axios');
+import GetUser from './GetUser';
 
 describe('AddUser', () => {
   let wrapper;
@@ -14,30 +12,11 @@ describe('AddUser', () => {
   });
 
   it('should render a <div /> in add user', () => {
-    expect(wrapper.find('div').length).toEqual(23);
+    expect(wrapper.find('div').length).toEqual(24);
   });
 
-  // it('a post request should be made', () => {
-  //   const postSpy = jest.spyOn(axios, 'post');
-  //   const newTask = 'new task name';
-  //   const taskInput = wrapper.find('input');
-  //   taskInput.simulate('change', { target: { value: newTask } });
-  //   const button = wrapper.find('submit');
-  //   button.simulate('click');
-
-  //   expect(postSpy).toBeCalled();
-
-  // });
-
-  it('should call onChange prop', () => {
-  const onSearchMock = jest.fn();
-  const event = {
-    preventDefault() {},
-    target: { value: 'the-value' }
-  };
-  const component = shallow(<input onChange={onSearchMock} />);
-  component.find('input').simulate('change', event);
-  expect(onSearchMock).toBeCalledWith('the-value');
-});
+  it('should render the GetUser Component', () => {
+    expect(wrapper.containsMatchingElement(<GetUser />)).toEqual(true);
+  });
 
 });

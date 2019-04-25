@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from "axios"
+import GetUser from './GetUser'
 
 class AddUser extends React.Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class AddUser extends React.Component {
             firstName: '',
             lastName: '',
             empId: '',
-            addData: []
+            addData: [],
+            getData: []
         };
     }
 
@@ -41,53 +43,68 @@ class AddUser extends React.Component {
         }
         axios.post("http://localhost:9091/projectmanager/user/saveUsers", user)
             .then(res => {
-                 this.setState({ addData: res.data });
+                this.setState({ addData: res.data });
+                this.getUserData();
+            });
+    }
+
+    componentDidMount() {
+        axios.get("http://localhost:9091/projectmanager/user/getAllUsers")
+            .then(res => {
+                this.setState({ getData: res.data });
+            });
+    }
+
+    getUserData() {
+        axios.get("http://localhost:9091/projectmanager/user/getAllUsers")
+            .then(res => {
+                this.setState({ getData: res.data });
             });
     }
 
     render() {
         return (
-            <div className='container-fluid'>
+            <div className='container-fluid'><br />
                 <form className='form-group' id="userForm" onSubmit={this.onAddUser.bind(this)}>
                     <div className='row'>
                         <div className='col-md-2'></div>
-                        <div className='col-md-3'>
+                        <div className='col-md-2'>
                             <label>First Name :</label>
                         </div>
-                        <div className='col-md-5'>
+                        <div className='col-md-4'>
                             <input type='text' className="form-control" name='firstName' value={this.state.firstName}
                                 onChange={this.onFirstChange.bind(this)} />
                         </div>
-                        <div className='col-md-2'></div>
+                        <div className='col-md-4'></div>
                     </div><br />
                     <div></div>
                     <div className='row'>
                         <div className='col-md-2'></div>
-                        <div className='col-md-3'>
+                        <div className='col-md-2'>
                             <label>Last Name :</label>
                         </div>
-                        <div className='col-md-5'>
+                        <div className='col-md-4'>
                             <input type='text' className="form-control" name='lastName' value={this.state.lastName}
                                 onChange={this.onLastChange.bind(this)} />
-                        </div>
-                        <div className='col-md-2'></div>
-                    </div><br />
-                    <div className='row'>
-                        <div className='col-md-2'></div>
-                        <div className='col-md-3'>
-                            <label>Employee ID :</label>
-                        </div>
-                        <div className='col-md-3'>
-                            <input type='text' className="form-control" name='lastName' value={this.state.empId}
-                                onChange={this.onEmpId.bind(this)} />
                         </div>
                         <div className='col-md-4'></div>
                     </div><br />
                     <div className='row'>
-                        <div className='col-md-8'></div>
+                        <div className='col-md-2'></div>
+                        <div className='col-md-2'>
+                            <label>Employee ID :</label>
+                        </div>
+                        <div className='col-md-2'>
+                            <input type='text' className="form-control" name='lastName' value={this.state.empId}
+                                onChange={this.onEmpId.bind(this)} />
+                        </div>
+                        <div className='col-md-6'></div>
+                    </div><br />
+                    <div className='row'>
+                        <div className='col-md-7'></div>
                         <div className='col-md-4'>
                             <div className='row'>
-                                <div className='col-md-5'>
+                                <div className='col-md-1'>
                                     <button type='submit' className='btn btn-secondary'>Add</button>
                                 </div>
                                 <div className='col-md-4'>
@@ -98,6 +115,10 @@ class AddUser extends React.Component {
                     </div>
                     <br />
                 </form>
+
+                <div className="row">
+                    <GetUser userData={this.state.getData} />
+                </div>
             </div>
         )
     }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { HashRouter, Route, NavLink } from "react-router-dom";
-import { connect } from 'react-redux'
 import AddProject from '../Project/AddProject'
 import AddTask from '../Task/AddTask'
 import AddUser from '../User/AddUser'
