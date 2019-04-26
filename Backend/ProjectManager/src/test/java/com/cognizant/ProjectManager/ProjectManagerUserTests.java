@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.cognizant.entity.Project;
 import com.cognizant.entity.User;
 import com.cognizant.model.UserRecord;
 import com.cognizant.repository.UserRepository;
@@ -24,7 +25,7 @@ import com.cognizant.service.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProjectManagerApplicationTests {
+public class ProjectManagerUserTests {
 	
 	@Mock
 	private UserRepository userRepository;
@@ -79,6 +80,21 @@ public class ProjectManagerApplicationTests {
 		user.setLastName(userRecord.lastName);
 		user.setEmpId(userRecord.employeeId);
 		when(userRepository.save(user)).thenReturn(user);
+		User result = userService.saveUser(userRecord);
+	}
+	
+	@Test
+	public void testUpdatProjectIdUser(){
+		User user = new User(1L,"Madhu","kundo","681173",null,null);
+		Project project = new Project(2L, "Telstra comm", null, null, 1);
+		user.setProjectId(project.getProjectId());
+		when(userRepository.save(user)).thenReturn(user);
+		User result = userService.updatProjectIdUser(2L, user);
+		assertEquals("Madhu", result.getFirstName());
+		assertEquals("kundo", result.getLastName());
+		assertEquals("681173", result.getEmpId());
+		assertEquals(Long.valueOf(2L), result.getProjectId());
+		assertEquals(null ,result.getTaskId());
 	}
 
 

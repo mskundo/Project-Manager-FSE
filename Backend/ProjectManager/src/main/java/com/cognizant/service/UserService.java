@@ -17,12 +17,21 @@ public class UserService {
 	@Autowired
 	public UserRepository userRepository;
 	
+	@Autowired
+	public ProjectService projectService;
+
+
 	public User saveUser(UserRecord userRecord) {
 		User user=new User();
 		user.setUserId(userRecord.userId);
 		user.setFirstName(userRecord.firstName);
 		user.setLastName(userRecord.lastName);
 		user.setEmpId(userRecord.employeeId);
+		return userRepository.save(user);
+	}
+	
+	public User updatProjectIdUser(Long projectId, User user){
+		user.setProjectId(projectId);
 		return userRepository.save(user);
 	}
 
